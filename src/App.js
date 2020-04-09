@@ -1,26 +1,25 @@
-import React from 'react';
+import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Counter from "./Counter"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+// state props
+class App extends Component{
+  constructor()
+  {
+    super()
+  }
+
+  render(){
+    return (<div>
+      <h1>APP</h1>
+      <Counter counter={3}
+               decrementButtonText={"DECREASE"}
+               incrementButtonText={"INCREASE"}/>
+      <Counter decrementButtonText={"__DECREASE__"} incrementButtonText={"__INCREASE__"}/>
+    </div>)
+  }
 }
 
 export default App;

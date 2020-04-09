@@ -12,6 +12,11 @@ const add_arrow = (a,b) => {
     return a+b
 };
 
+const empty_func =  () => {
+    return "HELLO"
+}
+
+console.log(empty_func())
 console.log("Add arrow function")
 console.log(add_arrow(1,2))
 console.log("*******************\n\n")
@@ -26,13 +31,21 @@ console.log(message())
 console.log("*******************\n\n")
 
 // Deconstructing variables from objects, arrays
-const developer = {
-    firstName: 'Tharun',
+const msg = "message"
+let integer = 1
+let str = 'string'
+let arr = [1, '2',2,34,1.05]
+let obj = { key: {innerKey: 2}, 
+            arr: [] }
+
+let developer = {
+    'firstName': 'Tharun',
     lastName: 'Sikhinam',
     developer: true,
     age: 25,
 }
 
+developer.firstName = "ABC"
 //destructure developer object
 const { firstName, lastName } = developer;
 console.log(firstName); // returns 'Nathan'

@@ -11,3 +11,5 @@ export function times(x) {
 export function plusTwo(number) {
     return number + 2;
 }
+
+export const temp = [1,2,3]
