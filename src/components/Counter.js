@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
-import './App.css';
+import '../App.css';
 
 
 // state props
@@ -15,6 +14,11 @@ class Counter extends Component{
         this.onDecreaseButtonClick = this.onDecreaseButtonClick.bind(this)
         this.onIncreaseButtonClick = this.onIncreaseButtonClick.bind(this)
     }
+    componentWillReceiveProps(nextProps, nextContext) {
+        if(this.state.counter !== nextProps.counter)
+            this.setState({counter: nextProps.counter})
+    }
+
     onDecreaseButtonClick(event){
         this.setState({counter: this.state.counter-1})
     }
