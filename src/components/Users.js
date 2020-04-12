@@ -6,7 +6,7 @@ import "./users.css"
 class Users extends Component{
     constructor(props){
         super(props)
-        this.state={users: [], query: ""}
+        this.state={users: [], query: "",error: []}
         this.onDeleteUserClick = this.onDeleteUserClick.bind(this)
         this.onSearchClick = this.onSearchClick.bind(this)
         this.onCreateUser = this.onCreateUser.bind(this)
@@ -44,6 +44,13 @@ class Users extends Component{
         let promise = apiClient.makeAPIRequest("https://gorest.co.in/public-api/users","POST",user)
         promise.then((results)=>{
             console.log(results)
+            if(results.data._meta.code===422){
+                // we found errors in validation
+                let error = results.data.result
+                this.setState({error: error})
+            }
+            else
+                this.setState({error: []})
             this.refreshUsers()
         }).catch((error)=>{
             console.log(error)
@@ -55,23 +62,23 @@ class Users extends Component{
     }
 
     render(){
-        console.log("USERS ",this.state)
+        console.log("USERS ",this.state,this.props)
         let user_names = this.state.users.map((user)=>{
             return user.first_name
         })
 
         return <div  >USERS
-
-
-
             {/* FORM COMPONENT*/}
             <p style={{cursor: "pointer"}}
                onClick={()=>this.setState({showForm: true})}
             >Create User</p>
             <div style={{borderColor: 'black', borderWidth: '2px', borderStyle: 'solid'}}>
-                {this.state.showForm?<FormComponent
+                {this.state.showForm?
+                    <FormComponent
+                        error={this.state.error}
                 onCancel={()=>{this.setState({showForm: false})}}
-                onSubmit={this.onCreateUser}/>:null}
+                onSubmit={this.onCreateUser}/>:
+                    null}
             </div>
 
             {/*Search Component*/}

@@ -8,45 +8,42 @@ import {
     HashRouter,
     BrowserRouter,
     Switch,
+    Link,
     NavLink,
     Route,
+    Redirect,
 } from 'react-router-dom'
-import UsersRouter from "./components/users/UsersRouter";
+import UsersRouter from "./components/users/UsersRouter"
 
 
 // state props
 class AppRouter extends Component{
   constructor(){
     super();
-    this.state = {navigation: "users", clockRunning: false}
-    this.stopClock = this.stopClock.bind(this)
+    this.state = {login: true}
   }
-  stopClock(flag){
-    this.setState({clockRunning: flag})
-  }
+
   render(){
-    let component = null;
-    switch(this.state.navigation){
-      case "counter": component = <Counter counter={3}
-                                           decrementButtonText={"DECREASE"}
-                                           incrementButtonText={"INCREASE"}/>
-                                           break;
-      case "ToDoList": component =  <ToDoList/>
-                      break;
-      case "clock": component = <Clock stopClock={this.stopClock}/>
-                  break;
-      case "users": component = <Users/>
-                break;
-      default: component = null;
-    }
     return (<div>
       <h1> Navigation </h1>
       <BrowserRouter>
+
+        <NavLink to={"/counter"}>Counter</NavLink>&nbsp;
+        <NavLink to={"/todolist"}>To Do List</NavLink>&nbsp;
+        <NavLink to={"/users"}>Users</NavLink>&nbsp;
+        <NavLink to={"/usersRouter"}>UsersRouter</NavLink>&nbsp;
+        <NavLink to={"/usersRouter/create"}>Create</NavLink>
         <Switch>
           <Route exact path={"/"} component={Counter}/>
           <Route path={"/counter"} component={Counter}/>
           <Route path={"/todolist"} component={ToDoList}/>
-          <Route path={"/users"} component={UsersRouter}/>
+          <Route path={"/clock"} render={()=>{
+            if(this.state.login===false)
+              return <Redirect to={"/"} />
+            return <Clock stopClock={()=>{}}/>
+          }}/>
+          <Route path={"/users"} component={Users}/>
+          <Route path={"/usersRouter"} component={UsersRouter}/>
         </Switch>
       </BrowserRouter>
 

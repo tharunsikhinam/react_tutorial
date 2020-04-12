@@ -53,43 +53,43 @@ class UsersRouter extends Component{
             return user.first_name
         })
 
-        return <div >USERS
-            <NavLink to={"/users/create"}>Create User</NavLink>
+        return <div >
+            <br/>
+            USERS
+
+            <div><div style={{borderColor: 'black', borderWidth: '2px', borderStyle: 'solid'}}>
+                <p>Enter First Name</p>
+                <textarea onChange={(event)=>{
+                    this.setState({query: event.target.value})
+                    this.onSearchClick()
+                }} />
+                <button onClick={this.onSearchClick}>Search</button>
+            </div>
+                {/*Display*/}
+                <div style={{borderColor: 'black', borderWidth: '2px', borderStyle: 'solid'}}>
+                    <ListComponent list={user_names}
+                                   deleteItem={true}
+                                   fontSize={"25px"}
+                                   onDeleteItemClick={this.onDeleteUserClick} />
+                </div>
+            </div>
+
+            <NavLink to={"/usersRouter/create"}>Create User</NavLink>
+
              <Switch>
-                 <Route  exact path = {"/users"} render={()=>{
-                     return <div><div style={{borderColor: 'black', borderWidth: '2px', borderStyle: 'solid'}}>
-                         <p>Enter First Name</p>
-                         <textarea onChange={(event)=>{
-                             this.setState({query: event.target.value})
-                             this.onSearchClick()
-                         }} />
-                         <button onClick={this.onSearchClick}>Search</button>
-                     </div>
-                     {/*Display*/}
-                     <div style={{borderColor: 'black', borderWidth: '2px', borderStyle: 'solid'}}>
-                         <ListComponent list={user_names}
-                                        deleteItem={true}
-                                        fontSize={"25px"}
-                                        onDeleteItemClick={this.onDeleteUserClick} />
-                     </div>
+                 <Route  exact path = {"/usersRouter"} render={()=>{
+                     return <div>
+
                      </div>
                  }}/>
-                 <Route path = {"/users/create"} component={FormComponent}/>
+
+                 <Route path = {"/usersRouter/create"} render={()=>{
+                     return <FormComponent error={[]}/>
+                 }}/>
                  <Route path = {"/users/:id"} render={()=>{
                      return <UserDisplay users={this.state.users} />
                  }}/>
              </Switch>
-
-
-            {/* FORM COMPONENT*/}
-            <p style={{cursor: "pointer"}}
-               onClick={()=>this.setState({showForm: true})}
-            >Create User</p>
-            <div style={{borderColor: 'black', borderWidth: '2px', borderStyle: 'solid'}}>
-                {this.state.showForm?<FormComponent
-                onCancel={()=>{this.setState({showForm: false})}}
-                onSubmit={this.onCreateUser}/>:null}
-            </div>
 
             {/*Search Component*/}
 

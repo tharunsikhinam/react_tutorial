@@ -29,6 +29,7 @@ class Counter extends Component{
         const {decrementButtonText,incrementButtonText} = this.props
         const dummy = "XX"
         const dummyHTML = <h1>ABC</h1>
+        console.log("PROPS",this.props.location.pathname)
         return (<div>
             <h1>{dummy}</h1>
             {dummyHTML}
@@ -56,6 +57,11 @@ class Counter extends Component{
             <button
                 onClick={this.onIncreaseButtonClick}
             >{incrementButtonText}</button>
+
+            <br/>
+            <button onClick={()=>{
+                this.props.history.push("/users", {msg: "CAME FROM COUNTER PAGE"})
+            }}>GO TO USERS PAGE</button>
         </div>)
     }
 }
