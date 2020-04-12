@@ -10,13 +10,14 @@ class ApiClient {
 
         }
     }
-    makeAPIRequest(apiUrl, type)
+    makeAPIRequest(apiUrl, type, data)
         {
 
         apiUrl = apiUrl + "?_format=json&access-token=Pyiex5tdmdZcgPCIdKy4VLOPWkMiS5a3d7y1"
         switch(type){
             case "GET": return axios.get(apiUrl);
             case "DELETE": return axios.delete(apiUrl)
+            case "POST": return axios.post(apiUrl,data)
             default: return null;
         }
 

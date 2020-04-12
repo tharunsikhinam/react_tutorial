@@ -12,7 +12,21 @@ class FormComponent extends Component {
                 this.setState({first_name: event.target.value})
             }}/>
             <p>Last name</p>
-            <textarea/>
+            <textarea onChange={(event)=>{
+                this.setState({last_name: event.target.value})
+            }}/>
+            <p>Email</p>
+            <textarea onChange={(event)=>{
+                this.setState({email: event.target.value})
+            }}/>
+            <p>Gender</p>
+            <textarea onChange={(event)=>{
+                this.setState({gender: event.target.value})
+            }}/>
+            <p>Status</p>
+            <textarea onChange={(event)=>{
+                this.setState({status: event.target.value})
+            }}/>
             <button onClick={()=>{
                 console.log(this.state)
                 // make a callback to parent function
@@ -20,6 +34,7 @@ class FormComponent extends Component {
                     this.props.onSubmit(this.state)
                 }
             }}>Submit</button>
+            <button onClick={this.props.onCancel}>Cancel</button>
         </div>
     }
 }

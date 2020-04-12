@@ -21,7 +21,7 @@ function ListComponent ({list , fontSize, onDeleteItemClick, deleteItem}) {
     return <div>
         List No-React Component
         {list.map((ele,index)=>{
-            return <li
+            return <li key={index}
                 style={{fontSize: fontSize}}>{ele}
                 {deleteItem ? <button onClick={(event)=>{
                     onDeleteItemClick(index)

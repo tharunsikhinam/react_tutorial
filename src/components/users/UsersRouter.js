@@ -1,9 +1,10 @@
 import React,{Component} from 'react';
-import apiClient from "../utils/ApiClient"
-import ListComponent from "./ListComponent";
-import FormComponent from "./FormComponent";
-import "./users.css"
-class Users extends Component{
+import apiClient from "../../utils/ApiClient"
+import ListComponent from "../ListComponent";
+import FormComponent from "../FormComponent";
+import {Switch, Route, NavLink, useParams, useRouteMatch} from "react-router-dom";
+
+class UsersRouter extends Component{
     constructor(props){
         super(props)
         this.state={users: [], query: ""}
@@ -41,27 +42,43 @@ class Users extends Component{
     onCreateUser(user){
         // MAKE API CALL
         console.log("IN PARENT COMPONENT",user)
-        let promise = apiClient.makeAPIRequest("https://gorest.co.in/public-api/users","POST",user)
-        promise.then((results)=>{
-            console.log(results)
-            this.refreshUsers()
-        }).catch((error)=>{
-            console.log(error)
-        })
-
         // POST API CALL
             // ON POST API CALL SUCCESS
                 // REFRESH USER LIST
     }
 
     render(){
-        console.log("USERS ",this.state)
+        console.log("USERS ",this.state,this.props)
         let user_names = this.state.users.map((user)=>{
             return user.first_name
         })
 
-        return <div  >USERS
-
+        return <div >USERS
+            <NavLink to={"/users/create"}>Create User</NavLink>
+             <Switch>
+                 <Route  exact path = {"/users"} render={()=>{
+                     return <div><div style={{borderColor: 'black', borderWidth: '2px', borderStyle: 'solid'}}>
+                         <p>Enter First Name</p>
+                         <textarea onChange={(event)=>{
+                             this.setState({query: event.target.value})
+                             this.onSearchClick()
+                         }} />
+                         <button onClick={this.onSearchClick}>Search</button>
+                     </div>
+                     {/*Display*/}
+                     <div style={{borderColor: 'black', borderWidth: '2px', borderStyle: 'solid'}}>
+                         <ListComponent list={user_names}
+                                        deleteItem={true}
+                                        fontSize={"25px"}
+                                        onDeleteItemClick={this.onDeleteUserClick} />
+                     </div>
+                     </div>
+                 }}/>
+                 <Route path = {"/users/create"} component={FormComponent}/>
+                 <Route path = {"/users/:id"} render={()=>{
+                     return <UserDisplay users={this.state.users} />
+                 }}/>
+             </Switch>
 
 
             {/* FORM COMPONENT*/}
@@ -75,25 +92,13 @@ class Users extends Component{
             </div>
 
             {/*Search Component*/}
-            <div style={{borderColor: 'black', borderWidth: '2px', borderStyle: 'solid'}}>
-            <p>Enter First Name</p>
-            <textarea onChange={(event)=>{
-                this.setState({query: event.target.value})
-                this.onSearchClick()
-            }} />
-                <button onClick={this.onSearchClick}>Search</button>
-            </div>
 
-
-            {/*Display*/}
-            <div style={{borderColor: 'black', borderWidth: '2px', borderStyle: 'solid'}}>
-            <ListComponent list={user_names}
-                           deleteItem={true}
-                           fontSize={"25px"}
-                           onDeleteItemClick={this.onDeleteUserClick} />
-            </div>
         </div>
     }
 }
 
-export default Users
+const UserDisplay = ((props)=>{
+    console.log(props)
+        return <div>User something</div>
+})
+export default UsersRouter
