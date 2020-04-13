@@ -2,15 +2,24 @@ import React,{Component} from 'react';
 import apiClient from "../../utils/ApiClient"
 import ListComponent from "../ListComponent";
 import FormComponent from "../FormComponent";
-import {Switch, Route, NavLink, useParams, useRouteMatch} from "react-router-dom";
+import "./userRouter.css"
+import {InputGroup, FormControl, Button} from "react-bootstrap";
 
+import {Switch, Route, NavLink, useParams, useRouteMatch} from "react-router-dom";
+// styles in js
+const mainStyle ={
+    backgroundColor: "black",
+    fontSize: "20px",
+    fontColor: "green"
+}
 class UsersRouter extends Component{
     constructor(props){
         super(props)
-        this.state={users: [], query: ""}
+        this.state={users: [], query: "", className: ["userrouter"], mainStyle: mainStyle}
         this.onDeleteUserClick = this.onDeleteUserClick.bind(this)
         this.onSearchClick = this.onSearchClick.bind(this)
         this.onCreateUser = this.onCreateUser.bind(this)
+        this.onChangeStyles = this.onChangeStyles.bind(this)
     }
     componentDidMount(){
         this.refreshUsers()
@@ -33,7 +42,21 @@ class UsersRouter extends Component{
           alert("DELETE UNSUCCESSFULL")
         })
     }
+    onChangeStyles(){
+            this.setState({className: ["userRouter","search"]})
+            // copy of the object in the state
+            {/* WRONG WAY
+        let newStyle = this.state.mainStyle;
+        newStyle.backgroundColor = "green"
+        */}
+            let newMainStyle = Object.assign({},this.state.mainStyle)
+            // modify
+            newMainStyle.backgroundColor = "green"
+            // re-assign
+            this.setState({mainStyle: newMainStyle})
+    }
     onSearchClick(){
+
         let promise = apiClient.makeRequest("https://gorest.co.in/public-api/users?_format=json&access-token=Pyiex5tdmdZcgPCIdKy4VLOPWkMiS5a3d7y1&first_name="+this.state.query, "GET")
         promise.then((results)=>{
             this.setState({users: results.data.result})
@@ -51,19 +74,36 @@ class UsersRouter extends Component{
         console.log("USERS ",this.state,this.props)
         let user_names = this.state.users.map((user)=>{
             return user.first_name
-        })
+        });
+        let classNames = this.state.className.join(' ')
 
-        return <div >
+        return <div style={this.state.mainStyle}>
             <br/>
             USERS
-
-            <div><div style={{borderColor: 'black', borderWidth: '2px', borderStyle: 'solid'}}>
+            <div className={classNames}>
+                <div style={{borderColor: 'black', borderWidth: '2px', borderStyle: 'solid'}}>
                 <p>Enter First Name</p>
+                    <InputGroup className="mb-3">
+                        <FormControl
+                            onChange={(event)=>{
+                                this.setState({query: event.target.value})
+                            }}
+                            placeholder="Recipient's username"
+                            aria-label="Recipient's username"
+                            aria-describedby="basic-addon2"
+                        />
+                        <InputGroup.Append>
+                            <Button
+                            onClick={this.onSearchClick}
+                                variant="outline-secondary">Button</Button>
+                        </InputGroup.Append>
+                    </InputGroup>
                 <textarea onChange={(event)=>{
                     this.setState({query: event.target.value})
                     this.onSearchClick()
                 }} />
                 <button onClick={this.onSearchClick}>Search</button>
+                    <button onClick={this.onChangeStyles}>Change Styles</button>
             </div>
                 {/*Display*/}
                 <div style={{borderColor: 'black', borderWidth: '2px', borderStyle: 'solid'}}>

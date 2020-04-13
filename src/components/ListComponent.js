@@ -1,4 +1,7 @@
 import React, {Component} from 'react'
+import {ListGroup,
+    Button
+} from 'react-bootstrap'
 
 // class ListComponent extends Component {
 //     constructor(props){
@@ -20,14 +23,18 @@ import React, {Component} from 'react'
 function ListComponent ({list , fontSize, onDeleteItemClick, deleteItem}) {
     return <div>
         List No-React Component
+        <ListGroup>
         {list.map((ele,index)=>{
-            return <li key={index}
+            return <ListGroup.Item key={index}
                 style={{fontSize: fontSize}}>{ele}
-                {deleteItem ? <button onClick={(event)=>{
+                {deleteItem ? <Button
+
+                    onClick={(event)=>{
                     onDeleteItemClick(index)
-                }}>Delete</button> : null}
-            </li>
+                }}>Delete</Button> : null}
+            </ListGroup.Item>
         })}
+        </ListGroup>
     </div>
 }
 

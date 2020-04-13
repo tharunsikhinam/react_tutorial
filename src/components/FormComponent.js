@@ -54,7 +54,8 @@ class FormComponent extends Component {
                     this.props.onSubmit(this.state)
                 }
             }}>Submit</button>
-            <button onClick={this.props.onCancel}>Cancel</button>
+            <button
+                onClick={this.props.onCancel}>Cancel</button>
         </div>
     }
 }

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
+import "./css/main.css"
 import Counter from "./components/Counter"
 import ToDoList from "./components/ToDoList"
 import Clock from "./components/Clock";
@@ -32,7 +33,7 @@ class App extends Component{
       default: component = null;
     }
     return (<div>
-      <h1> Navigation </h1>
+      <h1 className={""}> Navigation </h1>
       <a onClick={()=> this.setState({navigation: "counter"})}> Counter </a>
       <a onClick={()=> this.setState({navigation: "ToDoList"}) }> To-DO List </a>
       <a onClick={()=> this.setState({navigation: "clock"}) }> Clock </a>
