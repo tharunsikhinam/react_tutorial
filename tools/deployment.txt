@@ -1,0 +1,64 @@
+/login
+	send login.html
+/clock
+	send clock.html
+/user
+	send user.html
+	.css
+	.js
+
+/somethingelse
+	send some.html
+
+
+	<navgiation>
+	<text>
+
+	<user>
+
+/reactPage
+	create a copy of the existing .html
+	copy header , footer and any other common html tags
+
+
+
+---
+4 things during build process -
+- transpiles and compiles to browser readable code
+- bundle all the files by importing relevant libraries
+- minifies the js
+- uglify
+
+
+3 ways to deploy:
+
+npm run build
+
+1. UI server - run a standalone server
+	- which is only responsible for serving static content
+	- you could move the html and js to CDN, Nginx
+
+2. Integrate into backend server
+	- copy all the entire build folder into the static directory of your backend server
+	- and make sure to serve the index.html on "/" route and keep all the other route for your data API's
+
+3. Integrate to existing HTML
+	- create a copy of the existing .html
+	copy header , footer and any other common html tags
+	- build React app seperately,
+	- copy only the js and css
+	- create a div in the html page
+	- import styles and js in the html page
+	- return html on route
+
+	can't interact HTML and React in the same page
+	- you can access the data stored in the HTML tags
+	- componentDidMount method - documnet.getElementById
+
+4. Advanced
+    - Code splitting (when you have really large application,
+        and the UI is very distinct for different user types.)
+    - Server side rendering
+        - performance problems
+        -
+    -

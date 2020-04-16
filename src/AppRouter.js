@@ -26,10 +26,13 @@ class AppRouter extends Component{
     this.state = {login: true}
 
   }
+  componentDidMount() {
+      let userId = document.getElementById("user")
+  }
 
-  render(){
+    render(){
     return (<div>
-      <BrowserRouter>
+      <HashRouter>
           <Navbar bg="light" expand="lg">
               <Navbar.Brand href="#home">React-Tutorial</Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -65,7 +68,7 @@ class AppRouter extends Component{
           <Route path={"/usersRouter"} component={UsersRouter}/>
           <Route path={"/bootstrap"} component={BootstrapDemo}/>
         </Switch>
-      </BrowserRouter>
+      </HashRouter>
 
     </div>)
   }
