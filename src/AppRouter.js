@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+
 import './App.css';
 import Counter from "./components/Counter"
 import ToDoList from "./components/ToDoList"
@@ -15,23 +17,41 @@ import {
     Redirect,
 } from 'react-router-dom'
 import UsersRouter from "./components/users/UsersRouter"
-import {Navbar, NavDropdown, Nav, Form, FormControl, Button }
+import {Navbar, NavDropdown, Nav, Form, FormControl, Button, Spinner }
 from 'react-bootstrap'
+import UsersRedux from "./components/usersRedux/UsersRedux";
 
 
 // state props
 class AppRouter extends Component{
   constructor(){
     super();
-    this.state = {login: true}
+    /*
+    const storeState = this.props.store.getState()
+    this.state= {storeState: storeState}
+    */
+    this.state = {login: true, dummyState: "Value"}
 
   }
-  componentDidMount() {
+
+  componentWillReceiveProps(nextProps, nextContext) {
+      // callback when we receive new props from parent
+      // const storeState = this.nextProps.store.getState()
+      // this.setState({storeState: storeState})
+  }
+
+    componentDidMount() {
       let userId = document.getElementById("user")
+      //this.props.store.dispatch({type: "MODIFY_USER",data: {key: "VALUE2"}})
   }
 
     render(){
+      console.log(this.props)
+        const {dispatch} = this.props
     return (<div>
+        {this.props.inProgress? <Spinner animation="border" role="status">
+            <span className="sr-only">Loading...</span>
+        </Spinner>:null}
       <HashRouter>
           <Navbar bg="light" expand="lg">
               <Navbar.Brand href="#home">React-Tutorial</Navbar.Brand>
@@ -41,6 +61,7 @@ class AppRouter extends Component{
                       <Nav.Link href="/counter"> <NavLink to={"/counter"}>Counter</NavLink></Nav.Link>
                       <Nav.Link href="/todolist"><NavLink to={"/todolist"}>To Do List</NavLink></Nav.Link>
                       <Nav.Link href="/clock">Clock</Nav.Link>
+                      <Nav.Link href="/usersRedux">Redux</Nav.Link>
                       <NavDropdown title="Users" id="basic-nav-dropdown">
                           <NavDropdown.Item href="/usersRouter"><NavLink to={"/usersRouter"}>UsersRouter</NavLink></NavDropdown.Item>
                           <NavDropdown.Item href="/usersRouter/create"><NavLink to={"/usersRouter/create"}>Create</NavLink></NavDropdown.Item>
@@ -48,7 +69,10 @@ class AppRouter extends Component{
                   </Nav>
               </Navbar.Collapse>
           </Navbar>
-
+          <h1>{this.props.value}</h1>
+          <Button onClick={()=>{
+              dispatch({type: "MODIFY_USER",data: {key: "VALUE2"}})
+          }}>Click to change store</Button>
         {/*<NavLink to={"/counter"}>Counter</NavLink>&nbsp;*/}
         {/*<NavLink to={"/todolist"}>To Do List</NavLink>&nbsp;*/}
         {/*<NavLink to={"/users"}>Users</NavLink>&nbsp;*/}
@@ -67,6 +91,7 @@ class AppRouter extends Component{
           <Route path={"/users"} component={Users}/>
           <Route path={"/usersRouter"} component={UsersRouter}/>
           <Route path={"/bootstrap"} component={BootstrapDemo}/>
+            <Route path={"/usersRedux"} component={UsersRedux}/>
         </Switch>
       </HashRouter>
 
@@ -74,4 +99,10 @@ class AppRouter extends Component{
   }
 }
 
-export default AppRouter;
+// pure function
+function mapStateToProps(storeState,props){
+    // return new properties to be added/edited in the component
+    // is to extract only the part of the state that you are worried about
+    return {value: storeState.users.key, inProgress: storeState.app.inProgress}
+}
+export default connect(mapStateToProps)(AppRouter);

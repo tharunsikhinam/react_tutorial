@@ -20,7 +20,7 @@ import {ListGroup,
 //     }
 // }
 
-function ListComponent ({list , fontSize, onDeleteItemClick, deleteItem}) {
+function ListComponent ({list , fontSize, dispatch,onDeleteItemClick, deleteItem}) {
     return <div>
         List No-React Component
         <ListGroup>

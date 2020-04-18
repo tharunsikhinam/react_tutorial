@@ -1,11 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import configureStore from "./store/configureStore";
 import './index.css';
 import App from './App';
 import AppRouter from "./AppRouter"
-
+// initialize store before rendering application
+// load state from localStroage if it exists
+var store = configureStore({key: "VALUE"})
 ReactDOM.render(
-    <AppRouter />,
+    <Provider store={store}>
+        <AppRouter store={store}/>
+    </Provider>,
   document.getElementById('root')
 );
 
