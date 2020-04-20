@@ -14,10 +14,10 @@ const mainStyle ={
     fontSize: "20px",
     fontColor: "green"
 }
-class UsersRedux extends Component{
+class UsersConatiner extends Component{
     constructor(props){
         super(props)
-        this.state={users: [], query: "", className: ["userrouter"], mainStyle: mainStyle}
+        this.state={query: "", className: ["userrouter"], mainStyle: mainStyle}
         this.onDeleteUserClick = this.onDeleteUserClick.bind(this)
         this.onSearchClick = this.onSearchClick.bind(this)
         this.onCreateUser = this.onCreateUser.bind(this)
@@ -127,6 +127,8 @@ class UsersRedux extends Component{
     }
 }
 
+
+
 const UserDisplay = ((props)=>{
     console.log(props)
         return <div>User something</div>
@@ -134,4 +136,4 @@ const UserDisplay = ((props)=>{
 function mapStateToProps(state,ownProps) {
     return {users: state.users.users}
 }
-export default connect(mapStateToProps)(UsersRedux)
+export default connect(mapStateToProps)(UsersConatiner)

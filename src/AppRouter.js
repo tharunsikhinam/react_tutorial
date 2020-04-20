@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, ReactPropTypes} from 'react';
 import {connect} from 'react-redux';
 
 import './App.css';
@@ -19,7 +19,9 @@ import {
 import UsersRouter from "./components/users/UsersRouter"
 import {Navbar, NavDropdown, Nav, Form, FormControl, Button, Spinner }
 from 'react-bootstrap'
-import UsersRedux from "./components/usersRedux/UsersRedux";
+import UsersRedux from "./components/usersRedux/UsersConatiner";
+import Login from "./components/login/Login";
+
 
 
 // state props
@@ -31,7 +33,6 @@ class AppRouter extends Component{
     this.state= {storeState: storeState}
     */
     this.state = {login: true, dummyState: "Value"}
-
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
@@ -41,6 +42,9 @@ class AppRouter extends Component{
   }
 
     componentDidMount() {
+        // window.onerror = function (message, filename, lineno, colno, error) {
+        //     console.log(message)
+        // };
       let userId = document.getElementById("user")
       //this.props.store.dispatch({type: "MODIFY_USER",data: {key: "VALUE2"}})
   }
@@ -62,6 +66,9 @@ class AppRouter extends Component{
                       <Nav.Link href="/todolist"><NavLink to={"/todolist"}>To Do List</NavLink></Nav.Link>
                       <Nav.Link href="/clock">Clock</Nav.Link>
                       <Nav.Link href="/usersRedux">Redux</Nav.Link>
+                      <Nav.Link onClick={()=>{
+                          this.props.dispatch({type: "LOGOUT"})
+                      }}>Logout</Nav.Link>
                       <NavDropdown title="Users" id="basic-nav-dropdown">
                           <NavDropdown.Item href="/usersRouter"><NavLink to={"/usersRouter"}>UsersRouter</NavLink></NavDropdown.Item>
                           <NavDropdown.Item href="/usersRouter/create"><NavLink to={"/usersRouter/create"}>Create</NavLink></NavDropdown.Item>
@@ -81,11 +88,12 @@ class AppRouter extends Component{
 
         <Switch>
           <Route exact path={"/"} component={Counter}/>
+          <Route exact path={"/login"} component={Login}/>
           <Route path={"/counter"} component={Counter}/>
           <Route path={"/todolist"} component={ToDoList}/>
           <Route path={"/clock"} render={()=>{
-            if(this.state.login===false)
-              return <Redirect to={"/"} />
+            if(this.props.loggedIn===false)
+              return <Redirect to={"/login"} />
             return <Clock stopClock={()=>{}}/>
           }}/>
           <Route path={"/users"} component={Users}/>
@@ -98,11 +106,20 @@ class AppRouter extends Component{
     </div>)
   }
 }
+// Prop Types
+
+// Default Props
+AppRouter.defaultProps={
+    defaultValue: "SOMETHING"
+};
 
 // pure function
 function mapStateToProps(storeState,props){
     // return new properties to be added/edited in the component
     // is to extract only the part of the state that you are worried about
-    return {value: storeState.users.key, inProgress: storeState.app.inProgress}
+
+    return {value: storeState.users.key,
+            inProgress: storeState.app.inProgress,
+            loggedIn: storeState.app.loggedIn}
 }
 export default connect(mapStateToProps)(AppRouter);

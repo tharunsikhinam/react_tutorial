@@ -53,6 +53,7 @@ class FormComponent extends Component {
                 if(this.props.onSubmit){
                     this.props.onSubmit(this.state)
                 }
+                //this.props.dispatch({type: "CREATE_USER",payload: this.state})
             }}>Submit</button>
             <button
                 onClick={this.props.onCancel}>Cancel</button>

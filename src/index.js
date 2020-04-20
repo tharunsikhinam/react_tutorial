@@ -7,7 +7,21 @@ import App from './App';
 import AppRouter from "./AppRouter"
 // initialize store before rendering application
 // load state from localStroage if it exists
-var store = configureStore({key: "VALUE"})
+let initialState ={ }
+if(localStorage.getItem("state")!=null){
+    initialState = JSON.parse(localStorage.getItem("state"))
+}
+var store = configureStore(initialState)
+store.subscribe(()=>{
+    console.log("STORE CHANGED")
+    const serializableState = JSON.stringify(store.getState());
+    localStorage.setItem('state',serializableState);
+});
+
+function refreshState(){
+     localStorage.removeItem("state")
+}
+
 ReactDOM.render(
     <Provider store={store}>
         <AppRouter store={store}/>
